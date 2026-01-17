@@ -19,6 +19,9 @@ rm -rf /var/cache/apk/*
 COPY config/nginx.non-root.conf /etc/nginx/nginx.conf
 COPY app /app
 
+# activate monitoring page
+RUN sed -i "s|;ping.path = /ping|ping.path = /fpm-ping|g" /etc/php84/php-fpm.d/www.conf 
+
 
 COPY --from=gitrepo /git-commit.txt /git-commit.txt
 RUN GIT_COMMIT=$(cat /git-commit.txt) && \
@@ -29,3 +32,6 @@ RUN GIT_COMMIT=$(cat /git-commit.txt) && \
 EXPOSE 8080
 
 CMD ["sh", "-c", "nginx && php-fpm84 -F"]
+
+# Configure a healthcheck to validate that everything is up&running
+HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1:8080/fpm-ping || exit 1
