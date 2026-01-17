@@ -1,6 +1,8 @@
+name: p12r.dev
 services:
   danp:
-    image: ghcr.io/macphil/danp:latest
+    container_name: danp
+    image: danp:latest
     build:
       context: .
       dockerfile: Dockerfile

@@ -28,4 +28,4 @@ RUN GIT_COMMIT=$(cat /git-commit.txt) && \
 
 EXPOSE 8080
 
-CMD ["sh", "-c", "nginx && php-fpm83 -F"]
+CMD ["sh", "-c", "nginx && php-fpm84 -F"]
